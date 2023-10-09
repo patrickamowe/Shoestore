@@ -1,4 +1,10 @@
-venv/
 .idea/
 db.sqlite3
+media
 venv
+venv/*
+store/media
+store/migrations
+venv/Lib/site-packages/django/contrib/admin/migrations/0003_logentry_add_action_flag_choices.py
+venv/Lib/site-packages/django/contrib/redirects/migrations/0002_alter_redirect_new_path_help_text.py
+
