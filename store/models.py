@@ -16,6 +16,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Categories"
+        ordering = ("name",)
+
 
 class Item(models.Model):
     name = models.CharField(max_length=200)
@@ -26,3 +30,6 @@ class Item(models.Model):
     image = models.ImageField(upload_to='media/')
     description = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-id",)
