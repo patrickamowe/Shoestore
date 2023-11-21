@@ -1,0 +1,26 @@
+{%extends "store/layout.html"%}
+{%block title%}Login{%endblock%}
+{%block body%}
+
+    <div class="container-sm">
+        <div class="col-md-6 col-12 mx-auto">
+            <h2>Login</h2>
+            {% if message %}
+            <div class="text-danger">{{ message }}</div>
+            {% endif %}
+
+            <form action="{% url 'login' %}" method="POST">
+                {% csrf_token %}
+                `
+                <div class="form-group">
+                    <input autofocus class="form-control rounded-pill" type="text" name="username" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control rounded-pill" type="password" name="password" placeholder="Password">
+                </div>
+                <input class="btn btn-primary" type="submit" value="Login">
+            </form>
+            <p> Don't have an account? <a href="{%url 'register'%}">Signup here.</a></p>
+        </div>
+    </div>
+{%endblock%}

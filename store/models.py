@@ -33,3 +33,34 @@ class Item(models.Model):
 
     class Meta:
         ordering = ("-id",)
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(Item, through='CartItem')
+    total = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def total_price(self):
+        return self.product.selling_price * self.quantity
+
+    class Meta:
+        unique_together = ('cart', 'product')  # Ensure uniqueness of wishlist items
+
+
+class Wishlist(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+
+class WishlistItem(models.Model):
+    wishlist = models.ForeignKey(Wishlist, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('wishlist', 'product')  # Ensure uniqueness of wishlist items

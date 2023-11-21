@@ -7,33 +7,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="{% static 'store/style.css' %}">
-  <script src="{%static 'store/script.js'%}"></script>
+</head>
+<body>
+    <div class="nav">
+        <div class="container-sm">
+            <nav class="px-0 navbar navbar-expand navbar-light">
+                <div class=" w-100 flex-between-center row">
+                    <div class="col-auto">
+                        <div class="d-flex align-items-center">
+                            <a class="nav-brand nav-link" href="#">Logo</a>
+                        </div>
+                    </div>
+                    <div class="order-md-1 col-auto  ml-auto">
+                        <ul class="navbar-nav-icons flex-row me-n2 navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{%url 'index'%}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+                                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#" id="profile" data-toggle="dropdown">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
+                                    </svg>
+                                </a>
+                                <div class="dropdown-menu">
+                                    {%if user.is_authenticated%}
+                                        <div class="d-flex flex-column align-items-center justify-content-center ">
+                                            <p>{{user.username|title}}</p>
+                                        </div>
+                                    {%endif%}
+                                    <a class="dropdown-item d-flex flex-column align-items-center justify-content-center " href="{%url 'login'%}"><button class="btn btn-secondary">Login</button></a>
+                                    <a class="dropdown-item d-flex flex-column align-items-center justify-content-center " href="{%url 'logout'%}"><button class="btn btn-secondary">Logout</button></a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{%url 'view_cart'%}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{%url 'view_wishlist'%}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                                      <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-12 mx-auto">
+                        <div class="search-box ecommerce-search-box w-100">
+                            <form class="nav-link">
+                                <input placeholder="Search..." type="search" class="search-input search rounded-pill form-control form-control-sm">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </div>
+
+
+    {%block body%}
+    {%endblock%}
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-</head>
-<body>
-    <nav class="navbar navbar-expand-xl bg-dark navbar-dark fixed-top">
-        <a class="nav-brand" href="#">Logo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navb">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navb">
-            <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-              <a class="nav-link" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Category</a>
-            </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0" action="#">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                <button class="btn btn-success" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-    {%block body%}
-    {%endblock%}
+ <script src="{%static 'store/script.js'%}"></script>
 </body>
 </html>
