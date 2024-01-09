@@ -1,69 +1,75 @@
 {%extends "store/layout.html"%}
-{%block title%}Wishlist{%endblock%}
+{%load static%}
+{%block title%}{%endblock%}
 {%block body%}
-<div class="container-sm bg-light">
-    {%if wishlist_items%}
-        <h2 class="mb-4 mt-4">Wishlist</h2>
-        <div class="border-y">
-            <div class="scrollbar ms-n1 ps-1">
-                <table class=" fs-9 table">
-                    <thead>
-                    <tr>
-                        <th style="width: 7%;" class=""></th>
-                        <th style="min-width: 250px; width: 30%;" class="sort asc">Products</th>
-                        <th style="width: 16%;" class="sort">Color</th>
-                        <th style="width: 10%;" class="sort">Size</th>
-                        <th style="width: 10%;" class="text-end sort">Price</th>
-                        <th style="width: 35%;" class=""></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {%for item in wishlist_items%}
-                    <tr>
-                        <td class="py-0">
-                            <div class="rounded-2 border d-inline-block">
-                                <img src="{{item.product.image.url}}" alt="" class="img-thumbnail" width="53">
-                            </div>
-                        </td>
-                        <td class="pe-11">
-                            <a class="fw-semi-bold line-clamp-1" href="#">{{item.product.name}}</a>
-                        </td>
-                        <td class="white-space-nowrap">Black</td>
-                        <td class="text-700 fw-semi-bold">Pro</td>
-                        <td class="text-end fw-semi-bold">{{item.product.selling_price}}</td>
-                        <td>
-                            <div class="d-flex gap-2 justify-content-end">
-                                <button type="button" data-post-id="{{item.product.id}}" class="remove-item-from-wishlist text-500 hover-text-600 btn btn-sm text-muted">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                      <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                                    </svg>
-                                </button>
-                                <button type="button" data-post-id="{{item.product.id}}" class="add-to-cart-button fs-10 text-nowrap btn btn-primary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
-                                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                    </svg>
-                                    Add to cart
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    {%endfor%}
-                </table>
-            </div>
-        </div>
-    {%else%}
-        <div class="mt-4 text-center">
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-bookmarks text-info mt-2" viewBox="0 0 16 16">
-                  <path d="M2 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v11.5a.5.5 0 0 1-.777.416L7 13.101l-4.223 2.815A.5.5 0 0 1 2 15.5V4zm2-1a1 1 0 0 0-1 1v10.566l3.723-2.482a.5.5 0 0 1 .554 0L11 14.566V4a1 1 0 0 0-1-1H4z"/>
-                  <path d="M4.268 1H12a1 1 0 0 1 1 1v11.768l.223.148A.5.5 0 0 0 14 13.5V2a2 2 0 0 0-2-2H6a2 2 0 0 0-1.732 1z"/>
-                </svg>
-            </div>
-            <h2 class="mb-2 mt-4">You haven’t saved an item yet!</h2>
-            <p class="col-6 mx-auto">Found something you like? Tap on the heart shaped icon next to the item to add it to your wishlist! All your saved items will appear here.</p>
 
-            <h5><a class="text-info" href="{% url 'index' %}"> save now</a></h5>
+    <nav class="breadcrumb-nav">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="{%url 'index'%}"><i class="d-icon-home"></i></a></li>
+                <li>Wishlist</li>
+            </ul>
         </div>
-    {%endif%}
-</div>
+    </nav>
+    <div class="page-content pt-10 pb-10 mb-2">
+        <div class="container">
+            <table class="shop-table wishlist-table mt-2 mb-4">
+                <thead>
+                    <tr>
+                        <th class="product-name"><span>Product</span></th>
+                        <th></th>
+                        <th class="product-price"><span>Price</span></th>
+                        <th class="product-stock-status"><span>Stock status</span></th>
+                        <th class="product-add-to-cart"></th>
+                        <th class="product-remove"></th>
+                    </tr>
+                </thead>
+                <tbody class="wishlist-items-wrapper">
+                    {%for wishlist in wishlist_items%}
+                        <tr>
+                            <td class="product-thumbnail">
+                                <a href="{%url 'detail_view' wishlist.product.id%}">
+                                    <figure>
+                                        <img src="{{wishlist.product.image.url}}" width="100" height="100"
+                                            alt="product">
+                                    </figure>
+                                </a>
+                            </td>
+                            <td class="product-name">
+                                <a href="{%url 'detail_view' wishlist.product.id%}">{{wishlist.product.name}}</a>
+                            </td>
+                            <td class="product-price">
+                                <span class="amount">${{wishlist.product.selling_price}}</span>
+                            </td>
+                            <td class="product-stock-status">
+                                <span class="wishlist-in-stock">In Stock</span>
+                            </td>
+                            <td class="product-add-to-cart add-to-cart" data-item-id="{{wishlist.product.id}}">
+                                <a href="#" class="btn-product btn-primary"><span>Add Cart</span></a>
+                            </td>
+                            <td class="product-remove">
+                                <div>
+                                    <a href="#" class="remove remove-item-from-wishlist" data-item-id="{{wishlist.product.id}}" title="Remove this product"><i
+                                            class="fas fa-times"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            <div class="social-links share-on">
+                <h5 class="text-uppercase font-weight-bold mb-0 mr-4 ls-s">Share on:</h5>
+                <a href="#" class="social-link social-icon social-facebook" target="_blank"
+                    title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link social-icon social-twitter" target="_blank"
+                    title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link social-icon social-pinterest" target="_blank"
+                    title="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                <a href="#" class="social-link social-icon social-email" target="_blank"
+                    title="Email"><i class="far fa-envelope"></i></a>
+                <a href="#" class="social-link social-icon social-whatsapp" target="_blank"
+                    title="Whatsapp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </div>
+    </div>
 {%endblock%}

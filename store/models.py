@@ -64,3 +64,12 @@ class WishlistItem(models.Model):
 
     class Meta:
         unique_together = ('wishlist', 'product')  # Ensure uniqueness of wishlist items
+
+
+class ProductView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("-timestamp",)

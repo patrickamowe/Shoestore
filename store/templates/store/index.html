@@ -1,22 +1,274 @@
 {%extends "store/layout.html"%}
-{%block title%}Home{%endblock%}
+{%load static%}
+{%block title%}Shoe store{%endblock%}
 {%block body%}
-    <div class="container-sm">
-        <div class="row">
-            {%for item in items%}
-                <div class="col-md-4 mt-3">
-                    <div class="thumbnail">
-                        <a href="{%url 'detail' item.id%}">
-                            <img src="{{item.image.url}}" class="img-thumbnail">
-                            <div class="caption">
-                              <p class="name">{{item.name|title}}</p>
-                              <p class="price">Price: &#36;{{item.selling_price}}</p>
-                            </div>
-                        </a>
+    <div class="page-content">
+        <section
+            class="intro-slider animation-slider owl-carousel owl-theme owl-nav-bg owl-dot-inner row cols-1 gutter-no"
+            data-owl-options="{
+            'items': 1,
+            'loop': false,
+            'responsive': {
+                '992': {
+                    'dots': false,
+                    'nav': true
+                }
+            },
+            'animateIn': 'fadeIn',
+            'animateOut': 'fadeOut'
+        }">
+            <div class="intro-slide1 banner banner-fixed" style="background-color: #f0f0f0">
+                <figure>
+                    <img src=" {% static 'store/images/demos/demo23/slides/1.jpg' %}" alt="banner" width="1903" height="469" />
+                </figure>
+                <div class="container">
+                    <div class="banner-content ml-lg-2 y-50">
+                        <div class="slide-animate"
+                            data-animation-options="{'name': 'flipInY', 'duration': '.8s'}">
+                            <h4 class="banner-subtitle text-uppercase">Performance &amp; Lifestyle</h4>
+                            <h3 class="banner-title ls-m text-dark font-weight-bolder"><span
+                                    class="font-weight-bold text-primary ls-s">Introducing</span><br />Fashion
+                                Lifestyle<br />Collection
+                            </h3>
+                            <a href="{%url 'shop_view'%}" class="btn btn-dark btn-outline btn-rounded mb-1">Shop
+                                now <i class="d-icon-arrow-right"></i></a>
+                        </div>
                     </div>
                 </div>
-            {%endfor%}
-        </div>
-    </div>
+            </div>
+            <div class="intro-slide2 banner banner-fixed" style="background-color: #ececf3">
+                <figure>
+                    <img src=" {% static 'store/images/demos/demo23/slides/2.jpg' %}" alt="banner" width="1903" height="469" />
+                </figure>
+                <div class="container">
+                    <div class="banner-content ml-auto y-50 mr-0">
+                        <div class="slide-animate"
+                            data-animation-options="{'name': 'blurIn', 'duration': '.8s'}">
+                            <h4 class="banner-subtitle text-uppercase text-primary">Professional</h4>
+                            <h3 class="banner-title ls-s font-weight-bold">Pulseira Inteligente <br />Smart Band
+                                5</h3>
+                            <a href="{%url 'shop_view'%}" class="btn btn-dark btn-outline btn-rounded mb-1">Shop
+                                now <i class="d-icon-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="product-wrapper container mt-10 pt-6 appear-animate">
+            <div class="title-wrapper d-flex align-items-center mb-5 with-link">
+                <h2 class="title title-simple text-left mb-0 ls-normal">Deals of the Week</h2>
+                <div class="countdown-container d-flex align-items-center font-weight-semi-bold text-white">
+                    <label>Ends In:</label>
+                    <div class="countdown countdown-compact" data-format="HMS" data-until="+10h"
+                        data-relative="true" data-compact="true">00:00:00</div>
+                </div>
+                <a href="#" class="">View All Products<i class="d-icon-arrow-right"></i></a>
+            </div>
+            <div class="owl-carousel owl-theme row cols-xl-5 cols-lg-4 cols-md-3 cols-2 gutter-xs"
+                data-owl-options="{
+                'items': 5,
+                'loop': false,
+                'margin': 10,
+                'responsive': {
+                    '0': {
+                        'items': 2
+                    },
+                    '768': {
+                        'items': 3
+                    },
+                    '992': {
+                        'items': 4
+                    },
+                    '1200': {
+                        'items': 5
+                    }
+                }
+            }">
+                {%for item in most_recent_posts%}
+                    <div class="product text-center">
+                        <figure class="product-media">
+                            <a href="{%url 'detail_view' item.id%}">
+                                <img src=" {{item.image.url}}" alt="product" width="300"
+                                    height="332">
+                                <img src=" {{item.image.url}}" alt="product" width="300"
+                                    height="332">
+                            </a>
+                            <div class="product-action-vertical">
+                                <a href="#" class="btn-product-icon btn-cart add-to-cart" data-item-id="{{item.id}}" data-toggle="modal"
+                                    data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
+                                <a href="#" class="btn-product-icon btn-wishlist add-to-wishlist" data-item-id="{{item.id}}" title="Add to wishlist"><i
+                                        class="d-icon-heart"></i></a>
+                            </div>
+                            <div class="product-action">
+                                <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                            </div>
+                        </figure>
+                        <div class="product-details">
+                            <div class="product-cat">
+                                <a href="{%url 'shop_view'%}">categories</a>
+                            </div>
+                            <h3 class="product-name">
+                                <a href="{%url 'detail_view' item.id%}">{{item.name}}</a>
+                            </h3>
+                            <div class="product-price">
+                                <span class="price">${{item.selling_price}}</span>
+                            </div>
+                            <div class="ratings-container">
+                                <div class="ratings-full">
+                                    <span class="ratings" style="width:100%"></span>
+                                    <span class="tooltiptext tooltip-top"></span>
+                                </div>
+                                <a href="#" class="rating-reviews">( 2 )</a>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+        </section>
 
+        <section class="container mt-10">
+            <div class="banner1 banner" style="background-color: #27272c;">
+                <figure>
+                    <img src=" {% static 'store/images/demos/demo23/banner/3.jpg' %}" alt="">
+                </figure>
+                <div class="banner-content y-50" style="transform-origin: 25%">
+                    <div class="appear-animate"  data-animation-options="{
+                        'name': 'blurIn'
+                    }">
+                        <h4 class="banner-subtitle text-white font-weight-normal">Accessories for</h4>
+                        <h3
+                            class="banner-title d-inline-block text-white text-uppercase font-weight-bold mr-5 mb-0">
+                            Summer
+                            Season's
+                        </h3>
+                        <a href="{%url 'shop_view'%}" class="btn btn-white btn-link pb-2 pt-2 d-inline-block btn-infinite btn-slide-right">Shop
+                            now <i class="d-icon-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="product-wrapper container mt-10 pt-5">
+            <h2 class="title title-simple with-link">PRODUCTS<a href="#">View All Products<i class="d-icon-arrow-right"></i></a></h2>
+            <div class="product-grid row gutter-sm">
+                <div class="height-x2">
+                    <div class="banner banner-fixed">
+                        <figure>
+                            <img src=" {% static 'store/images/demos/demo23/banner/2.jpg' %}" alt="banner" width="340" height="593" />
+                        </figure>
+                        <div class="banner-content appear-animate" data-animation-options="{
+                            'name': 'fadeInDownShorter'
+                        }">
+                            <h4 class="banner-subtitle ls-m text-uppercase">Bestselling Product</h4>
+                            <h3 class="banner-title ls-s font-weight-bold">Professional<br />
+                                Mi Smart Band 5C</h3>
+                            <a href="{%url 'shop_view'%}" class="btn btn-white btn-shadow-sm mb-1">Shop now <i
+                                    class="d-icon-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                {%for item in items%}
+                    <div class="height-x1 appear-animate">
+                        <div class="product text-center">
+                            <figure class="product-media">
+                                <a href="{%url 'detail_view' item.id%}">
+                                    <img src=" {{item.image.url}}" alt="product" width="234"
+                                        height="259">
+                                </a>
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-cart add-to-cart" data-item-id="{{item.id}}" data-toggle="modal"
+                                        data-target="#addCartModal" title="Add to cart"><i
+                                            class="d-icon-bag"></i></a>
+                                    <a href="#" class="btn-product-icon btn-wishlist add-to-wishlist" data-item-id="{{item.id}}" title="Add to wishlist"><i
+                                            class="d-icon-heart"></i></a>
+                                </div>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                                </div>
+                            </figure>
+                            <div class="product-details">
+                                <h3 class="product-name">
+                                    <a href="{%url 'detail_view' item.id%}">{{item.name}}</a>
+                                </h3>
+                                <div class="product-price">
+                                    <span class="price">${{item.selling_price}}</span>
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width:100%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a href="{%url 'detail_view' item.id%}" class="rating-reviews">( 5 )</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {%endfor%}
+        </section>
+        {%if user_views%}
+            <section class="product-wrapper container mt-10 pt-5 appear-animate">
+                <h2 class="title title-simple text-left with-link">Recent Views<a href="{%url 'shop_view'%}">View All
+                        Products<i class="d-icon-arrow-right"></i></a></h2>
+                <div class="owl-carousel owl-theme row cols-xl-5 cols-lg-4 cols-md-3 cols-2 gutter-xs"
+                    data-owl-options="{
+                    'items': 5,
+                    'loop': false,
+                    'margin': 10,
+                    'responsive': {
+                        '0': {
+                            'items': 2
+                        },
+                        '768': {
+                            'items': 3
+                        },
+                        '992': {
+                            'items': 4
+                        },
+                        '1200': {
+                            'items': 5
+                        }
+                    }
+                }">
+                    {%for item in user_views%}
+                        <div class="product text-center">
+                            <figure class="product-media">
+                                <a href="{%url 'detail_view' item.product.id%}">
+                                    <img src=" {{item.product.image.url}}" alt="product" width="300"
+                                        height="332">
+                                    <img src=" {{item.product.image.url}}" alt="product" width="300"
+                                        height="332">
+                                </a>
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-cart add-to-cart" data-item-id="{{item.product.id}}" data-toggle="modal"
+                                        data-target="#addCartModal" title="Add to cart"><i class="d-icon-bag"></i></a>
+                                    <a href="#" class="btn-product-icon btn-wishlist add-to-wishlist" data-item-id="{{item.product.id}}" title="Add to wishlist"><i
+                                            class="d-icon-heart"></i></a>
+                                </div>
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-quickview" title="Quick View">Quick View</a>
+                                </div>
+                            </figure>
+                            <div class="product-details">
+                                <div class="product-cat">
+                                    <a href="{%url 'shop_view'%}">categories</a>
+                                </div>
+                                <h3 class="product-name">
+                                    <a href="{%url 'detail_view' item.product.id%}">{{item.product.name}}</a>
+                                </h3>
+                                <div class="product-price">
+                                    <span class="price">${{item.product.selling_price}}</span>
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width:100%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a href="#" class="rating-reviews">( 3 )</a>
+                                </div>
+                            </div>
+                        </div>
+                    {%endfor%}
+                </div>
+            </section>
+        {%endif%}
+    </div>
 {%endblock%}

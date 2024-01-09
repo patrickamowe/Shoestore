@@ -1,84 +1,483 @@
-{% load static %}
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>{%block title%}{%endblock%}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{% static 'store/style.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+
+    <title>{%block title%}{%endblock%}</title>
+
+    <meta name="keywords" content="HTML5 Template" />
+    <meta name="description" content="Riode - eCommerce Template">
+    <meta name="author" content="D-THEMES">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href=" {% static 'store/images/icons/favicon.png' %}">
+
+    <script>
+        WebFontConfig = {
+            google: { families: [ 'Poppins:400,500,600,700,800' ] }
+        };
+        ( function ( d ) {
+            var wf = d.createElement( 'script' ), s = d.scripts[ 0 ];
+            wf.src = '{% static  "store/js/webfont.js" %}';
+            wf.async = true;
+            s.parentNode.insertBefore( wf, s );
+        } )( document );
+    </script>
+
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'store/vendor/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'store/vendor/animate/animate.min.css' %}">
+
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" type="text/css" href="{% static 'store/vendor/magnific-popup/magnific-popup.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'store/vendor/owl-carousel/owl.carousel.min.css' %}">
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" type="text/css" href="{% static  'store/css/style.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static  'store/css/demo23.min.css' %}">
 </head>
-<body>
-    <div class="nav">
-        <div class="container-sm">
-            <nav class="px-0 navbar navbar-expand navbar-light">
-                <div class=" w-100 flex-between-center row">
-                    <div class="col-auto">
-                        <div class="d-flex align-items-center">
-                            <a class="nav-brand nav-link" href="#">Logo</a>
-                        </div>
+
+<body class="home">
+
+    <div class="page-wrapper">
+        <h1 class="d-none">Riode - Responsive eCommerce HTML Template</h1>
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <p class="welcome-msg">Welcome to Shoestore</p>
                     </div>
-                    <div class="order-md-1 col-auto  ml-auto">
-                        <ul class="navbar-nav-icons flex-row me-n2 navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{%url 'index'%}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
-                                        <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
-                                    </svg>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link" href="#" id="profile" data-toggle="dropdown">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                      <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"/>
-                                    </svg>
-                                </a>
-                                <div class="dropdown-menu">
-                                    {%if user.is_authenticated%}
-                                        <div class="d-flex flex-column align-items-center justify-content-center ">
-                                            <p>{{user.username|title}}</p>
-                                        </div>
-                                    {%endif%}
-                                    <a class="dropdown-item d-flex flex-column align-items-center justify-content-center " href="{%url 'login'%}"><button class="btn btn-secondary">Login</button></a>
-                                    <a class="dropdown-item d-flex flex-column align-items-center justify-content-center " href="{%url 'logout'%}"><button class="btn btn-secondary">Logout</button></a>
+                    <div class="header-right">
+                        {% if user.is_authenticated %}
+                            <div class="dropdown">
+                                <a class="link" href="#"><i class="d-icon-user"></i>Hi, {{user.username|upper}}</a>
+                                <ul class="dropdown-box">
+                                    <li><a href="{%url 'account_view'%}">account</a></li>
+                                    <li><a href="{%url 'order'%}">order</a></li>
+                                    <li><a href="{%url 'logout'%}">logout</a></li>
+                                </ul>
+                            </div>
+
+                        {% else%}
+                            <a class="login-link" href="{%url 'pop_login'%}" data-toggle="login-modal"><i class="d-icon-user"></i>Sign in</a>
+                            <span class="delimiter">/</span>
+                            <a class="register-link ml-0" href="{%url 'pop_login'%}" data-toggle="login-modal">Register</a>
+                            <!-- End of Login -->
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+            <!-- End HeaderTop -->
+            <div class="header-middle sticky-header fix-top sticky-content">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="#" class="mobile-menu-toggle">
+                            <i class="d-icon-bars2"></i>
+                        </a>
+                        <a href="{%url 'index'%}" class="logo">
+                            <img src=" {% static 'store/images/demos/demo23/logo.png' %}" alt="logo" width="153" height="44" />
+                        </a>
+                        <!-- End Logo -->
+
+                        <div class="header-search hs-simple">
+                            <form action="#" method="get" class="input-wrapper">
+                                <div class="select-box">
+                                    <select id="category" name="category">
+                                        <option value="">All Categories</option>
+                                        <option value="12">- Women</option>
+                                        <option value="13">- Men</option>
+                                    </select>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{%url 'view_cart'%}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                                      <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-                                    </svg>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{%url 'view_wishlist'%}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                                      <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-                                      <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
-                                    </svg>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6 col-12 mx-auto">
-                        <div class="search-box ecommerce-search-box w-100">
-                            <form class="nav-link">
-                                <input placeholder="Search..." type="search" class="search-input search rounded-pill form-control form-control-sm">
+                                <input type="text" class="form-control" name="search" id="search"
+                                    placeholder="Search..." required="">
+                                <button class="btn btn-search" type="submit"><i class="d-icon-search"></i></button>
                             </form>
+                        </div>
+                        <!-- End Header Search -->
+                    </div>
+                    <div class="header-right">
+                        <a href="tel:#" class="icon-box icon-box-side">
+                            <div class="icon-box-icon mr-0 mr-lg-2">
+                                <i class="d-icon-phone"></i>
+                            </div>
+                            <div class="icon-box-content d-lg-show">
+                                <h4 class="icon-box-title">Call Us Now:</h4>
+                                <p>0(800) 123-456</p>
+                            </div>
+                        </a>
+                        <span class="divider"></span>
+                        <a href="{%url 'wishlist_view'%}" class="wishlist">
+                            <i class="d-icon-heart"></i>
+                        </a>
+                        <span class="divider"></span>
+                        <div class="dropdown cart-dropdown type2 cart-offcanvas mr-0 mr-lg-2">
+                            <a href="#" class="cart-toggle label-block link">
+                                <div class="cart-label d-lg-show">
+                                    <span class="cart-name">Shopping Cart</span>
+                                </div>
+                                <i class="d-icon-bag">
+                                    <span class="cart-count">
+                                        {%if cart_items%}
+                                            {{cart_items.count}}
+                                        {%else%}
+                                            0
+                                        {%endif%}
+                                    </span>
+                                </i>
+                            </a>
+                            <div class="cart-overlay"></div>
+                            <!-- End Cart Toggle -->
+                            <div class="dropdown-box">
+                                <div class="cart-header">
+                                    <h4 class="cart-title">Shopping Cart</h4>
+                                    <a href="#" class="btn btn-dark btn-link btn-icon-right btn-close">close<i
+                                            class="d-icon-arrow-right"></i><span class="sr-only">Cart</span></a>
+                                </div>
+                                {%if cart_items%}
+                                    <div class="products scrollable">
+                                        {%for item in cart_items%}
+                                            <div class="product product-cart">
+                                                <figure class="product-media">
+                                                    <a href="{%url 'detail_view' item.product.id%}">
+                                                        <img src=" {{item.product.image.url}}" alt="product" width="80"
+                                                            height="88" />
+                                                    </a>
+                                                    <button class="btn btn-link btn-close remove-item-from-cart" data-item-id="{{item.product.id}}">
+                                                        <i class="fas fa-times"></i><span class="sr-only">Close</span>
+                                                    </button>
+                                                </figure>
+                                                <div class="product-detail">
+                                                    <a href="{%url 'detail_view' item.product.id%}" class="product-name">{{item.product.name}}</a>
+                                                    <div class="price-box">
+                                                        <span class="product-quantity">{{item.quantity}}</span>
+                                                        <span class="product-price">${{item.product.selling_price}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- End of Cart Product -->
+                                        {%endfor%}
+                                    </div>
+                                    <!-- End of Products  -->
+                                    <div class="cart-total">
+                                        <label>Subtotal:</label>
+                                        <span class="price">${{sub_total}}</span>
+                                    </div>
+                                    <!-- End of Cart Total -->
+                                    <div class="cart-action">
+                                        <a href="{%url 'view_cart'%}" class="btn btn-dark btn-link">View Cart</a>
+                                        <a href="{%url 'checkout_view'%}" class="btn btn-dark"><span>Go To Checkout</span></a>
+                                    </div>
+                                    <!-- End of Cart Action -->
+                                {%else%}
+                                    <div class="cart-action">
+                                        <div>
+                                            <i class="d-icon-bag"></i>
+                                        </div>
+                                        <p>Your cart is empty!</p>
+                                        <p>Browse our categories and discover our best deals!</p>
+                                        <a href="{%url 'shop_view'%}" class="btn btn-dark"><span>Start Shopping</span></a>
+                                    </div>
+                                {%endif%}
+                            </div>
+                            <!-- End Dropdown Box -->
+                        </div>
+                        <div class="header-search hs-toggle mobile-search">
+                            <a href="#" class="search-toggle">
+                                <i class="d-icon-search"></i>
+                            </a>
+                            <form action="#" class="input-wrapper">
+                                <input type="text" class="form-control" name="search" autocomplete="off"
+                                    placeholder="Search your keyword..." required />
+                                <button class="btn btn-search" type="submit">
+                                    <i class="d-icon-search"></i>
+                                </button>
+                            </form>
+                        </div>
+                        <!-- End of Header Search -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-bottom d-lg-show">
+                <div class="container">
+                    <div class="header-left">
+                        <nav class="main-nav ml-0">
+                            <ul class="menu">
+                                <li class="active">
+                                    <a href="{%url 'index'%}">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{%url 'shop_view'%}">Categories</a>
+                                        <ul>
+                                            <li><a href="{%url 'category_view' category='Women'%}">Women</a></li>
+                                            <li><a href="{%url 'category_view' category='Men'%}">Men</a></li>
+                                        </ul>
+                                </li>
+                                <li>
+                                    <a href="{%url 'about_view'%}">About Us</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- End Header -->
+        <main class="main">
+            {%block body%}
+            {%endblock%}
+        </main>
+        <!-- End Main -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-top">
+                    <div class="row align-items-center">
+                        <div class="col-lg-3">
+                            <a href="{%url 'index'%}" class="logo-footer">
+                                <img src=" {% static 'store/images/demos/demo23/logo-footer.png' %}" alt="logo-footer" width="154"
+                                    height="43" />
+                            </a>
+                            <!-- End FooterLogo -->
                         </div>
                     </div>
                 </div>
+                <!-- End FooterTop -->
+                <div class="footer-middle">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-info">
+                                <h4 class="widget-title">Contact Info</h4>
+                                <ul class="widget-body">
+                                    <li>
+                                        <label>Phone:</label>
+                                        <a href="tel:#">Toll Free (123) 456-7890</a>
+                                    </li>
+                                    <li>
+                                        <label>Email:</label>
+                                        <a href="mailto:mail@riode.com">riode@mail.com</a>
+                                    </li>
+                                    <li>
+                                        <label>Address:</label>
+                                        <a href="#">123 Street, City, Country</a>
+                                    </li>
+                                    <li>
+                                        <label>WORKING DAYS / HOURS:</label>
+                                    </li>
+                                    <li>
+                                        <a href="#">Mon - Sun / 9:00 AM - 8:00 PM</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Widget -->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget ml-lg-4">
+                                <h4 class="widget-title">About Us</h4>
+                                <ul class="widget-body">
+                                    <li>
+                                        <a href="{%url 'about_view'%}">About Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Order History</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Returns</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Custom Service</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Terms &amp; Condition</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Widget -->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget ml-lg-4">
+                                <h4 class="widget-title">My Account</h4>
+                                <ul class="widget-body">
+                                    <li>
+                                        <a href="#">Sign in</a>
+                                    </li>
+                                    <li>
+                                        <a href="{%url 'view_cart'%}">View Cart</a>
+                                    </li>
+                                    <li>
+                                        <a href="{%url 'wishlist_view'%}">My Wishlist</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Track My Order</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Help</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Widget -->
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="widget widget-instagram">
+                                <h4 class="widget-title">Instagram</h4>
+                                <figure class="widget-body row">
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/01.jpg' %}" alt="instagram 1" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/02.jpg' %}" alt="instagram 2" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/03.jpg' %}" alt="instagram 3" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/04.jpg' %}" alt="instagram 4" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/05.jpg' %}" alt="instagram 5" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/06.jpg' %}" alt="instagram 6" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/07.jpg' %}" alt="instagram 7" width="64" height="64" />
+                                    </div>
+                                    <div class="col-3">
+                                        <img src=" {% static 'store/images/instagram/08.jpg' %}" alt="instagram 8" width="64" height="64" />
+                                    </div>
+                                </figure>
+                            </div>
+                            <!-- End Instagram -->
+                        </div>
+                    </div>
+                </div>
+                <!-- End FooterMiddle -->
+                <div class="footer-bottom">
+                    <div class="footer-left">
+                        <figure class="payment">
+                            <img src=" {% static 'store/images/payment.png' %}" alt="payment" width="159" height="29" />
+                        </figure>
+                    </div>
+                    <div class="footer-center">
+                        <p class="copyright">Riode eCommerce &copy; 2021. All Rights Reserved</p>
+                    </div>
+                    <div class="footer-right">
+                        <div class="social-links">
+                            <a href="#" class="social-link social-facebook fab fa-facebook-f"></a>
+                            <a href="#" class="social-link social-twitter fab fa-twitter"></a>
+                            <a href="#" class="social-link social-linkedin fab fa-linkedin-in"></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End FooterBottom -->
+            </div>
+        </footer>
+        <!-- End Footer -->
+    </div>
+    <!-- Sticky Footer -->
+    <div class="sticky-footer sticky-content fix-bottom">
+        <a href="{%url 'index'%}" class="sticky-link active">
+            <i class="d-icon-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="{%url 'shop_view'%}" class="sticky-link">
+            <i class="d-icon-volume"></i>
+            <span>Categories</span>
+        </a>
+        <a href="{%url 'wishlist_view'%}" class="sticky-link">
+            <i class="d-icon-heart"></i>
+            <span>Wishlist</span>
+        </a>
+        <a href="{%url 'account_view'%}" class="sticky-link">
+            <i class="d-icon-user"></i>
+            <span>Account</span>
+        </a>
+        <div class="header-search hs-toggle dir-up">
+            <a href="#" class="search-toggle sticky-link">
+                <i class="d-icon-search"></i>
+                <span>Search</span>
+            </a>
+            <form action="#" class="input-wrapper">
+                <input type="text" class="form-control" name="search" autocomplete="off"
+                    placeholder="Search your keyword..." required />
+                <button class="btn btn-search" type="submit">
+                    <i class="d-icon-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Scroll Top -->
+    <a id="scroll-top" href="#top" title="Top" role="button" class="scroll-top"><i class="d-icon-arrow-up"></i></a>
 
-            </nav>
+    <!-- MobileMenu -->
+    <div class="mobile-menu-wrapper">
+        <div class="mobile-menu-overlay">
+        </div>
+        <!-- End Overlay -->
+        <a class="mobile-menu-close" href="#"><i class="d-icon-times"></i></a>
+        <!-- End CloseButton -->
+        <div class="mobile-menu-container scrollable">
+            <form action="#" class="input-wrapper">
+                <input type="text" class="form-control" name="search" autocomplete="off"
+                    placeholder="Search your keyword..." required />
+                <button class="btn btn-search" type="submit">
+                    <i class="d-icon-search"></i>
+                </button>
+            </form>
+            <!-- End Search Form -->
+            <ul class="mobile-menu mmenu-anim">
+                <li>
+                    <a href="{%url 'index'%}">Home</a>
+                </li>
+                <li>
+                    <a href="{%url 'shop_view'%}">Categories</a>
+                    <ul>
+                        <li><a href="#">Women</a></li>
+                        <li><a href="#">Men</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- End MobileMenu -->
         </div>
     </div>
 
+    <div class="newsletter-popup mfp-hide" id="newsletter-popup" style="background-image: url({% static 'store/images/newsletter-popup.jpg' %})">
+        <div class="newsletter-content">
+            <h4 class="text-uppercase text-dark">Up to <span class="text-primary">20% Off</span></h4>
+            <h2 class="font-weight-semi-bold">Sign up to <span>RIODE</span></h2>
+            <p class="text-grey">Subscribe to the Riode eCommerce newsletter to receive timely updates from your favorite
+                products.</p>
+            <form action="#" method="get" class="input-wrapper input-wrapper-inline input-wrapper-round">
+                <input type="email" class="form-control email" name="email" id="email2" placeholder="Email address here..."
+                    required="">
+                <button class="btn btn-dark" type="submit">SUBMIT</button>
+            </form>
+            <div class="form-checkbox justify-content-center">
+                <input type="checkbox" class="custom-checkbox" id="hide-newsletter-popup" name="hide-newsletter-popup"
+                    required />
+                <label for="hide-newsletter-popup">Don't show this popup again</label>
+            </div>
+        </div>
+    </div>
 
-    {%block body%}
-    {%endblock%}
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
- <script src="{%static 'store/script.js'%}"></script>
+    <!-- Plugins JS File -->
+    <script src="{% static 'store/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'store/vendor/elevatezoom/jquery.elevatezoom.min.js' %}"></script>
+    <script src="{% static 'store/vendor/magnific-popup/jquery.magnific-popup.min.js' %}"></script>
+
+    <script src="{% static 'store/vendor/owl-carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'store/vendor/imagesloaded/imagesloaded.pkgd.min.js' %}"></script>
+    <script src="{% static 'store/vendor/isotope/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'store/vendor/jquery.plugin/jquery.plugin.min.js' %}"></script>
+    <script src="{% static 'store/vendor/jquery.countdown/jquery.countdown.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static  'store/js/main.min.js' %}"></script>
+    <script src="{% static  'store/script.js' %}"></script>
 </body>
+
+
+<!-- Mirrored from d-themes.com/html/riode/{%url 'index'%} by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 06 Apr 2021 20:43:49 GMT -->
 </html>

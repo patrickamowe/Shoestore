@@ -2,9 +2,15 @@ from django.contrib import admin
 from store.models import Category
 from store.models import User
 from store.models import Item
+from store.models import Cart, CartItem, Wishlist, WishlistItem, ProductView
 
 # Register your models here.
 admin.site.register(Item)
+admin.site.register(Cart)
+admin.site.register(CartItem)
+admin.site.register(Wishlist)
+admin.site.register(WishlistItem)
+admin.site.register(ProductView)
 
 
 @admin.register(Category)
