@@ -1,7 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -13,55 +11,53 @@ import logging
 
 # Create your views here.
 
-def index_view(request):
-    user = request.user
-    items = Item.objects.all()[:8]
-    most_recent_posts = Item.objects.order_by('-timestamp')[:5]
-
-    user_views = []
+def get_cart_items(user):
     cart_items = []
     sub_total = 0
-
     if user.is_authenticated:
 
-        user_views = ProductView.objects.filter(user=request.user)[:5]
-
+        # attempt to get user's cart items and subtotal
         try:
-            cart = Cart.objects.get(user=request.user)
+            cart = Cart.objects.get(user=user)
             cart_items = CartItem.objects.filter(cart=cart)
             sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
 
         except Cart.DoesNotExist:
             cart = Cart.objects.create(user=user)
 
+    return sub_total, cart_items
+
+
+def index_view(request):
+    user = request.user
+    # getting all items in the first 8 items and 5 most recent post in the database
+    items = Item.objects.all()[:8]
+    most_recent_posts = Item.objects.all()[:5]
+
+    user_views = []
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
+
+    if user.is_authenticated:
+
+        user_views = ProductView.objects.filter(user=request.user)[:5]
+
     return render(request, "store/index.html", {"items":items, "most_recent_posts":most_recent_posts, "user_views": user_views, "cart_items": cart_items, "sub_total": sub_total})
 
 
 def about_view(request):
-    try:
-        cart = Cart.objects.get(user=request.user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+    user = request.user
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/about-us.html", {"sub_total": sub_total, "cart_items": cart_items})
 
 
 @login_required
 def order_view(request):
-    try:
-        cart = Cart.objects.get(user=request.user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+    user = request.user
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/order.html", {"sub_total": sub_total, "cart_items": cart_items})
 
@@ -74,55 +70,33 @@ def shop_view(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    cart_items = []
-    sub_total = 0
-
-    if user.is_authenticated:
-
-        try:
-            cart = Cart.objects.get(user=user)
-            cart_items = CartItem.objects.filter(cart=cart)
-            sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-        except Cart.DoesNotExist:
-            cart = Cart.objects.create(user=user)
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/shop.html", {"page_obj":page_obj, "cart_items": cart_items, "sub_total": sub_total})
 
 
 def detail_view(request, id):
     user = request.user
+    # getting product of same categories
     item = Item.objects.get(id=id)
     category = item.category
     same_categories = Item.objects.filter(category=category)[:4]
-    cart_items = []
-    sub_total = 0
+
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     if user.is_authenticated:
-
+        # create product view if user view the item
         ProductView.objects.get_or_create(user=user, product=item)
-        try:
-            cart = Cart.objects.get(user=user)
-            cart_items = CartItem.objects.filter(cart=cart)
-            sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-        except Cart.DoesNotExist:
-            cart = Cart.objects.create(user=user)
 
     return render(request, "store/detail.html", {'item': item, 'same_categories': same_categories, "cart_items": cart_items, "sub_total": sub_total})
 
 
 def account_view(request):
     user = request.user
-    try:
-        cart = Cart.objects.get(user=user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/account.html", {"sub_total": sub_total, "cart_items": cart_items})
 
@@ -130,30 +104,16 @@ def account_view(request):
 @login_required
 def checkout_view(request):
     user = request.user
-    try:
-        cart = Cart.objects.get(user=user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/checkout.html", {"cart_items": cart_items, "sub_total": sub_total})
 
 
 def error_404_view(request):
     user = request.user
-    try:
-        cart = Cart.objects.get(user=user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, "store/404.html", {"sub_total": sub_total, "cart_items": cart_items})
 
@@ -220,7 +180,10 @@ def add_to_cart(request, id):
         cart, created = Cart.objects.get_or_create(user=request.user)
         product = Item.objects.get(id=id)
 
+        # get cart_item or created if exited
         cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+        # increase the quantity of cart item if item already in cart
         if not created:
             cart_item.quantity += 1
             cart_item.save()
@@ -241,19 +204,19 @@ def add_to_cart(request, id):
 @login_required
 def view_cart(request):
     user = request.user
+    # redirect user to login page if not authenticated
     if user.is_anonymous:
         return HttpResponseRedirect(reverse("login"))
-    try:
-        cart = Cart.objects.get(user=user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-        row_totals = [item.product.selling_price * item.quantity for item in cart_items]
-        zip_list = zip(cart_items,row_totals)
-        total = sub_total + 30
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
+
+    # create new cart and get all items in the cart
+    sub_total, cart_items = get_cart_items(user)
+
+    # calculating the total cost of items in a row
+    row_totals = [item.product.selling_price * item.quantity for item in cart_items]
+    zip_list = zip(cart_items, row_totals)
+
+    # calculating the total cost of the items in user cart
+    total = sub_total + 30
 
     return render(request, 'store/cart.html', {'cart_items': cart_items, 'sub_total': sub_total, 'total': total, 'zip_list': zip_list})
 
@@ -263,15 +226,19 @@ logger = logging.getLogger(__name__)
 
 def remove_from_cart(request, id):
     user = request.user
+
+    # attempt to get cart and item
     cart = get_object_or_404(Cart, user=user)
     product = get_object_or_404(Item, id=id)
 
     try:
+        # deleting item for cart
         cart_item = CartItem.objects.get(cart=cart, product=product)
         price = cart_item.quantity * product.selling_price
         cart.total -= price
         cart.save()
         cart_item.delete()
+        # return a successful message with a status code 200
         response_data = {'status': 'success', 'message': 'Item deleted from cart successfully.'}
         return JsonResponse(response_data, status=200)
 
@@ -317,24 +284,20 @@ def add_to_wishlist(request, id):
 
 def view_wishlist(request):
     user = request.user
+
+    # create new cart and get all items in the cart
+    sub_total, cart_items = get_cart_items(user)
+
     if user.is_anonymous:
         return HttpResponseRedirect(reverse("login"))
+
+    # attempt to get wishlist and wishlist items
     try:
         wishlist = Wishlist.objects.get(user=user)
         wishlist_items = WishlistItem.objects.filter(wishlist=wishlist)
     except Wishlist.DoesNotExist:
         wishlist = Wishlist.objects.create(user=user)
         wishlist_items = []
-
-    try:
-        cart = Cart.objects.get(user=request.user)
-        cart_items = CartItem.objects.filter(cart=cart)
-        sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-    except Cart.DoesNotExist:
-        cart = Cart.objects.create(user=user)
-        cart_items = []
-        sub_total = 0
 
     return render(request, 'store/wishlist.html', {'wishlist': wishlist, 'wishlist_items':wishlist_items, "cart_items": cart_items, "sub_total": sub_total})
 
@@ -368,17 +331,7 @@ def category_view(request, category):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    cart_items = []
-    sub_total = 0
-
-    if user.is_authenticated:
-
-        try:
-            cart = Cart.objects.get(user=request.user)
-            cart_items = CartItem.objects.filter(cart=cart)
-            sub_total = sum(item.product.selling_price * item.quantity for item in cart_items)
-
-        except Cart.DoesNotExist:
-            cart = Cart.objects.create(user=user)
+    # getting cart items and subtotal
+    sub_total, cart_items = get_cart_items(user)
 
     return render(request, 'store/category.html', {'page_obj': page_obj, "cart_items": cart_items, "sub_total": sub_total})

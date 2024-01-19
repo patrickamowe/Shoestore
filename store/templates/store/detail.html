@@ -87,7 +87,7 @@
 								</ul>
 							</div>
 
-							<h1 class="product-name">FTPS Coffee Maker</h1>
+							<h1 class="product-name">{{item.name}}</h1>
 							<div class="product-meta">
 								SKU: <span class="product-sku">12345670</span>
 								BRAND: <span class="product-brand">The Northland</span>
@@ -128,7 +128,7 @@
 								</div>
 							</div>
 							<div class="product-variation-price">
-								<span>$239.00</span>
+								<span>${{item.selling_price}}</span>
 							</div>
 
 							<hr class="product-divider">
@@ -141,7 +141,7 @@
 										<input class="quantity form-control" type="number" min="1" max="1000000">
 										<button class="quantity-plus d-icon-plus"></button>
 									</div>
-									<button class="btn-product btn-cart add-to-cart" data-item-id="{{item.id}}"><i class="d-icon-bag"></i>Add To
+									<button class="btn-product btn-primary add-to-cart" data-item-id="{{item.id}}"><i class="d-icon-bag mr-2"></i>Add To
 										Cart</button>
 								</div>
 							</div>
@@ -448,7 +448,7 @@
 												class="d-icon-heart"></i></a>
 									</div>
 									<div class="product-action">
-										<a href="#" class="btn-product btn-quickview" title="Quick View">Quick
+										<a href="{%url 'detail_view' item.id%}" class="btn-product" title="Quick View">Quick
 											View</a>
 									</div>
 								</figure>

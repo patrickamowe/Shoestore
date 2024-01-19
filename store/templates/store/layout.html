@@ -54,7 +54,7 @@
                     <div class="header-right">
                         {% if user.is_authenticated %}
                             <div class="dropdown">
-                                <a class="link" href="#"><i class="d-icon-user"></i>Hi, {{user.username|upper}}</a>
+                                <a class="link" href="#"><i class="d-icon-user mr-2"></i>Hi, {{user.username|upper}}</a>
                                 <ul class="dropdown-box">
                                     <li><a href="{%url 'account_view'%}">account</a></li>
                                     <li><a href="{%url 'order'%}">order</a></li>

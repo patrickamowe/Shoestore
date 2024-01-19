@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.status === 'success') {
                     // Handle success
                     console.log(data.message);
+                    window.location.reload();
                 } else {
                     // Handle failure
                     console.error(data.message);
@@ -63,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (data.status === 'success') {
                     // Handle success
                     console.log(data.message);
+                    window.location.reload();
                 } else {
                     // Handle failure
                     console.error(data.message, data.st);
